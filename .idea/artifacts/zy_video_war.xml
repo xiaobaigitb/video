@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="zy-video:war">
+    <output-path>$PROJECT_DIR$/zy_videoV2/target</output-path>
+    <root id="archive" name="lyz-video.war">
+      <element id="artifact" artifact-name="zy-video:war exploded" />
+    </root>
+  </artifact>
+</component>

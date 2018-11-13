@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->
+<mapper namespace="com.zhiyou.video.mapper.FrontCallerMapper">
+    <!-- 封装查询结果 -->
+    <resultMap type="CallerModel" id="callerMap">
+        <id property="id" column="id"/>
+        <result property="visitorName" column="visitor_name"/>
+        <result property="tel" column="tel"/>
+        <result property="qq" column="qq"/>
+    </resultMap>
+
+
+    <!-- 保存访问用户 -->
+    <insert id="saveCaller" parameterType="CallerModel" useGeneratedKeys="true" keyProperty="id">
+  	insert into caller(visitor_name,tel,qq)
+  	values(#{visitorName},#{tel},#{qq})
+   </insert>
+
+</mapper>

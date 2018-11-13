@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+	
+<configuration>
+    
+	<settings>
+		<!--指定mybatis默认的日志实现，这里选用标准输出，可以打印出执行过程的sql语句，详细信息查看mybatis官网中setting设置一节-->
+		<setting name="logImpl" value="STDOUT_LOGGING"/>
+	</settings>
+    
+    <!-- 配置model类的别名目录 -->
+    <typeAliases>
+		<package name="com.zhiyou.video.model" />
+	</typeAliases>
+	
+
+</configuration>

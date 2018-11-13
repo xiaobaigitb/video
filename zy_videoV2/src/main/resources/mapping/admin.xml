@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->  
+<mapper namespace="com.zhiyou.video.mapper.AdminMapper">
+	<!-- 封装查询结果 -->
+	<resultMap type="AdminModel" id="adminMap">
+		<id property="id" column="id"/>
+		<result property="login_name" column="loginName"/>
+		<result property="login_pwd" column="loginPwd"/>
+	</resultMap>
+
+
+	<!-- 根据用户名密码查询管理员信息 -->
+  <select id="loginByName" parameterType="java.util.HashMap" resultMap="adminMap">
+    select * from admin where login_name=#{loginName} and login_pwd=#{loginPwd}
+  </select>
+  
+</mapper>

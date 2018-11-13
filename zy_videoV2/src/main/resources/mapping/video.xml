@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->  
+<mapper namespace="com.zhiyou.video.mapper.VideoMapper">
+
+	<resultMap type="VideoModel" id="VideoMap">
+		<id property="id" column="id"/>
+		<result property="videoTitle" column="video_title"/>
+		<result property="speakerId" column="speaker_id"/>
+		<result property="courseId" column="course_id"/>
+		<result property="videoLength" column="video_length"/>
+		<result property="videoImageUrl" column="video_image_url"/>
+		<result property="videoUrl" column="video_url"/>
+		<result property="videoDescr" column="video_descr"/>
+		<result property="insertTime" column="insert_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="videoPlayTimes" column="video_play_times"/>
+		
+		<result property="speakerName" column="speaker_name"/>
+		<result property="courseName" column="course_name"/>
+	</resultMap>
+
+  <select id="queryVideoModels" parameterType="com.zhiyou.video.query.VideoListQuery" resultMap="VideoMap">
+    select v.*,s.speaker_name,c.course_name
+    	from video v,speaker s,course c
+    	where v.speaker_id=s.id and v.course_id=c.id
+    	<if test="queryName!=null and queryName!=''">
+    		and v.video_title like concat('%',#{queryName},'%')
+    	</if>
+    	<if test="speakerId>0">
+    		and v.speaker_id=#{speakerId}
+    	</if>
+    	<if test="courseId>0">
+    		and v.course_id=#{courseId}
+    	</if>
+    	order by update_time desc
+  </select>
+  
+  <select id="queryVideoById" parameterType="int" resultMap="VideoMap">
+  	select * from video where id=#{id}
+  </select>
+  
+  <!-- useGeneratedKeys是控制是否返回自增字段的值，详细信息参考mybatis官网文档 xml映射文件篇章说明 -->
+  <insert id="addVideoModel" parameterType="VideoModel" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+  	insert into video(video_title,speaker_id,course_id,video_length,video_image_url,video_url,
+  		video_descr,insert_time,update_time)
+  		values(#{videoTitle},#{speakerId},#{courseId},#{videoLength},#{videoImageUrl},#{videoUrl},
+  		#{videoDescr},#{insertTime},#{updateTime})
+  </insert>
+  
+  <!-- 修改主讲人信息 -->
+  <update id="updateVideoModel" parameterType="VideoModel">
+  	update video set video_title=#{videoTitle},video_length=#{videoLength},video_image_url=#{videoImageUrl},
+  		video_url=#{videoUrl},video_descr=#{videoDescr},update_time=#{updateTime},speaker_id=#{speakerId},
+  		course_id=#{courseId}
+  		where id=#{id}
+  </update>
+  
+  <delete id="deleteById" parameterType="int">
+  	delete from video where id=#{id}
+  </delete>
+  
+  
+  <select id="queryVideosByCourse" resultMap="VideoMap">
+  	select v.*,s.speaker_name
+    	from video v,speaker s  where v.course_id=#{id} and v.speaker_id=s.id
+  </select>
+  
+  <!-- 更新视频播放量 -->
+  <update id="updateVideoPlaytimes">
+  	update video set video_play_times=video_play_times+1 where id=#{id}
+  </update>
+ <!--  ################################################################ -->
+  <!-- 统计 -->
+  <select id="stateCourseAvgPlaytimes" resultType="java.util.HashMap">
+	select course_id,course_name,round(avg(video_play_times)) avgTimes
+		from video v,course c
+		where v.course_id=c.id
+		group by v.course_id,c.course_name
+  </select>
+  
+</mapper>

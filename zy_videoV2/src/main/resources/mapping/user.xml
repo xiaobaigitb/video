@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->  
+<mapper namespace="com.zhiyou.video.mapper.FrontUserMapper">
+	<!-- 封装查询结果 -->
+	<resultMap type="UserModel" id="userMap">
+		<id property="id" column="id"/>
+		<result property="nickName" column="nick_name"/>
+		<result property="sex" column="sex"/>
+		<result property="birthday" column="birthday"/>
+		<result property="birthdayStr" column="birthday_str"/>
+		<result property="email" column="email"/>
+		<result property="province" column="province"/>
+		<result property="city" column="city"/>
+		<result property="headUrl" column="head_url"/>
+		<result property="password" column="password"/>
+		<result property="insertTime" column="insert_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="captcha" column="captcha"/>
+	</resultMap>
+
+	<!--//通过id查找role-->
+	<select id="selectRolesById" resultType="java.lang.String">
+        select
+        r.name
+        from
+        user l, user_role m, role r
+        where l.id=#{id}
+        and l.id=m.user_id
+        and r.id=m.role_id
+    </select>
+
+	<!-- 根据邮箱查询用户 -->
+  <select id="queryUserByEmail" resultMap="userMap">
+    select *,date_format(birthday,'%Y-%m-%d') as birthday_str from user where email=#{email}
+  </select>
+  <!-- 新增用户 -->
+  <insert id="insertUserModel" parameterType="UserModel" useGeneratedKeys="true" keyProperty="id">
+  	insert into user(nick_name,password,sex,birthday,province,city,head_url,insert_time,update_time,email)
+  	values(#{nickName},#{password},#{sex},#{birthday},#{province},#{city},#{headUrl},#{insertTime},#{updateTime},#{email})
+  </insert>
+  <!-- 更新用户基本信息，不包括密码和头像 -->
+  <update id="updateUserInfo" parameterType="UserModel">
+  	update user set nick_name=#{nickName},sex=#{sex},birthday=#{birthday},province=#{province},
+  		city=#{city},update_time=#{updateTime}
+  		where id=#{id}
+  </update>
+  
+  <!-- 根据id查询用户 -->
+  <select id="queryUserById" resultMap="userMap">
+  	select *,date_format(birthday,'%Y-%m-%d') as birthday_str from user where id=#{id}
+  </select>
+  <!-- 更新验证码 -->
+  <update id="updateCaptcha" parameterType="java.util.HashMap">
+  	update user set captcha=#{captcha} where email=#{email}
+  </update>
+  <!-- 更新用户密码 -->
+  <update id="updateUserPwd" parameterType="java.util.HashMap">
+  	update user set password=#{pwd} where id=#{id}
+  </update>
+  
+  <update id="updateUserHead" parameterType="java.util.HashMap">
+  	update user set head_url=#{head} where id=#{id}
+  </update>
+  
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd ">
+
+	<!-- 启用springmvc注解功能 -->
+	<mvc:annotation-driven validator="validator"></mvc:annotation-driven>
+	
+	<!-- 配置可以返回json数据的功能，同时指定编码，防止出现乱码 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
+	    <property name="messageConverters">  
+	        <list>  
+	            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	            	<property name="supportedMediaTypes">  
+	                    <list>  
+	                        <value>text/html;charset=UTF-8</value>  
+	                        <value>text/json;charset=UTF-8</value>  
+                			<value>application/json;charset=UTF-8</value>  
+	                    </list>  
+	                </property>  
+	            </bean> 
+	        </list>  
+	    </property>  
+	</bean>
+	
+	<!-- 配置bean的校验器 -->
+   <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+      <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+   </bean>
+
+	<!-- 启用包扫描的，将配置了Controller/Component等注解的类进行管理 -->
+	<context:component-scan base-package="com.zhiyou.video.controller"></context:component-scan>
+
+
+	<!-- 启用默认的视图处理解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 拦截器的配置 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 配置拦截后台url请求的拦截器 -->
+			<mvc:mapping path="/admin/**"/>
+			<!-- 将不需要拦截的请求排除在外 -->
+			<mvc:exclude-mapping path="/admin/login.do"/>
+			
+			<bean class="com.zhiyou.video.interceptor.AdminLoginInterceptor"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<!-- 配置拦截前台请求的拦截器 -->
+			<mvc:mapping path="/front/user/**"/>
+			<!-- 将不需要拦截的请求排除在外 -->
+			<mvc:exclude-mapping path="/front/user/login.do"/>
+			<mvc:exclude-mapping path="/front/user/logout.do"/>
+			<mvc:exclude-mapping path="/front/user/regist.do"/>
+			<bean class="com.zhiyou.video.interceptor.FrontLoginInterceptor"/>
+		</mvc:interceptor>
+
+		<!--拦截没有权限访问的-->
+		<mvc:interceptor>
+			<mvc:mapping path="/front/video/**"></mvc:mapping>
+			<bean class="com.zhiyou.video.interceptor.PermissionInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	<!-- 文件上传,id必须设置为multipartResolver -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置文件上传大小,字节为单位的 -->
+		<property name="maxUploadSize" value="5000000" />
+	</bean>
+	
+</beans>

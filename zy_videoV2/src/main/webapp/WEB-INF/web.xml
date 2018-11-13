@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+ 
+  <display-name>Archetype Created Web Application</display-name>
+  
+    <!-- 解决中文乱码问题 -->
+  <filter>
+    <filter-name>encoding</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encoding</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <servlet>
+  	<servlet-name>DispatcherServlet</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<!-- 指定加载的配置文件路径 -->
+  	<init-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>classpath:springmvc-servlet.xml</param-value>
+  	</init-param>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DispatcherServlet</servlet-name>
+  	<!-- 指定springmvc拦截的url路径 -->
+  	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- 添加过滤器，解决basepath路径的问题 -->
+  <filter>
+  	<filter-name>ContextPath</filter-name>
+  	<filter-class>com.zhiyou.video.filter.ContextFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>ContextPath</filter-name>
+  	<url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
+    <!-- 配置监听器，用来在系统启动的时候加载spring配置文件 -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+  
+  <welcome-file-list>
+  	<welcome-file>index.do</welcome-file>
+  </welcome-file-list>
+  
+</web-app>

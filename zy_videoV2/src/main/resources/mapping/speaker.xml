@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->  
+<mapper namespace="com.zhiyou.video.mapper.SpeakerMapper">
+	<!-- 查询所有的主讲人信息 -->
+  <select id="querySpeakers" resultType="SpeakerModel">
+    select id,speaker_name as speakerName,speaker_job as speakerJob,speaker_head_url speakerHeadUrl,
+    	speaker_descr as speakerDescr,insert_time as insertTime,update_time as updateTime from speaker order by update_time desc
+  </select>
+  
+  <!-- 根据id查询主讲人信息 -->
+  <select id="querySpeakerById" parameterType="int" resultType="SpeakerModel">
+  	select id,speaker_name as speakerName,speaker_job as speakerJob,speaker_head_url speakerHeadUrl,
+    	speaker_descr as speakerDescr,insert_time as insertTime,update_time as updateTime from speaker 
+    	where id=#{id}
+  </select>
+  
+  <!-- 添加主讲人信息 -->
+  <!-- useGeneratedKeys是控制是否返回自增字段的值，详细信息参考mybatis官网文档 xml映射文件篇章说明 -->
+  <insert id="insertSpeakerModel" parameterType="SpeakerModel" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+  	insert into speaker (speaker_name,speaker_job,speaker_head_url,speaker_descr,insert_time,update_time)
+  	 values(#{speakerName},#{speakerJob},#{speakerHeadUrl},#{speakerDescr},#{insertTime},#{updateTime})
+  </insert>
+  
+  <!-- 修改主讲人信息 -->
+  <update id="updateSpeakerById" parameterType="SpeakerModel">
+  	update speaker set speaker_name=#{speakerName},speaker_job=#{speakerJob},speaker_head_url=#{speakerHeadUrl},
+  		speaker_descr=#{speakerDescr},update_time=#{updateTime}
+  		where id=#{id}
+  </update>
+  
+  <!-- 删除主讲人信息,根据id删除 -->
+  <delete id="deleteSpeakerModel" parameterType="int">
+  	delete from speaker where id=#{id}
+  </delete>
+  <!-- 根据查询条件查询主讲人信息 -->
+  <!-- 分别判断主讲人名称和职业是否为空，以此来确定需要拼接的sql条件 -->
+ <!-- 第一种方式： select id,speaker_name as speakerName,speaker_job as speakerJob,speaker_head_url speakerHeadUrl,
+    	speaker_descr as speakerDescr,insert_time as insertTime,update_time as updateTime 
+    	from speaker where 1=1
+    <if test="queryName != '' and queryName != null">
+    	and speaker_name=#{queryName}
+    </if>
+    <if test="queryJob != '' and queryJob != null">
+    	and speaker_job=#{queryJob}
+    </if>
+   -->
+   
+    <select id="querySpeakerListCount" parameterType="java.util.HashMap" resultType="int">
+  		select count(*) 
+    			from speaker
+    <where>
+	    <if test="queryName != '' and queryName != null">
+	    	speaker_name like concat('%',#{queryName},'%')
+	    </if>
+	    <if test="queryJob != '' and queryJob != null">
+	    	and speaker_job  like concat('%',#{queryJob},'%')
+	    </if>
+    </where>	
+  </select>
+   
+  <select id="querySpeakerList" parameterType="java.util.HashMap" resultType="SpeakerModel">
+  	select id,speaker_name as speakerName,speaker_job as speakerJob,speaker_head_url speakerHeadUrl,
+    	speaker_descr as speakerDescr,insert_time as insertTime,update_time as updateTime 
+    	from speaker
+    <where>
+	    <if test="queryName != '' and queryName != null">
+	    	speaker_name like concat('%',#{queryName},'%')
+	    </if>
+	    <if test="queryJob != '' and queryJob != null">
+	    	and speaker_job  like concat('%',#{queryJob},'%')
+	    </if>
+    </where>	
+    
+    <if test="start!=null">
+    	limit #{start},#{pageSize}
+    </if>
+    
+  </select>
+  
+  <delete id="deleteById" parameterType="int">
+  	delete from speaker where id=#{id}
+  </delete>
+  
+</mapper>

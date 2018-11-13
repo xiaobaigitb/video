@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->  
+<mapper namespace="com.zhiyou.video.mapper.CourseMapper">
+	
+	<!-- 映射关系 -->
+	<resultMap type="CourseModel" id="CourseMap">
+		<id property="id" column="id"/>
+		<result column="course_name" property="courseName"/>
+		<result column="course_descr" property="courseDescr"/>
+		<result column="insert_time" property="insertTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="subject_id" property="subjectId"/>
+		
+		<result column="subject_name" property="subjectName"/>
+	</resultMap>
+
+
+  <select id="querySubjectModels" resultType="SubjectModel">
+    select id,subject_name as subjectName from subject
+  </select>
+  
+  <select id="queryCourseModels" resultMap="CourseMap">
+  	select c.*,s.subject_name from course c,subject s
+  	where c.subject_id=s.id
+  </select>
+  
+  <select id="queryCourseById" parameterType="int" resultMap="CourseMap">
+  	 select c.*,s.subject_name from course c,subject s
+  	where c.subject_id=s.id and c.id=#{id}
+  </select>
+  
+  <!-- useGeneratedKeys是控制是否返回自增字段的值，详细信息参考mybatis官网文档 xml映射文件篇章说明 -->
+  <insert id="addCourseModel" parameterType="CourseModel" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+  	insert into course (course_name,course_descr,subject_id,insert_time,update_time)
+  	 values(#{courseName},#{courseDescr},#{subjectId},#{insertTime},#{updateTime})
+  </insert>
+  
+  <!-- 修改主讲人信息 -->
+  <update id="updateCourseModel" parameterType="CourseModel">
+  	update course set course_name=#{courseName},course_descr=#{courseDescr},
+  		subject_id=#{subjectId},update_time=#{updateTime}
+  		where id=#{id}
+  </update>
+  
+  <delete id="deleteById" parameterType="int">
+  	delete from course where id=#{id}
+  </delete>
+  
+  
+  <select id="queryCoursesBySubject" resultMap="CourseMap">
+  	select * from course where subject_id=#{id}
+  </select>
+  
+  <select id="querySubjectById" resultType="subjectModel">
+  	 select id,subject_name as subjectName from subject where id=#{id}
+  </select>
+  
+</mapper>
