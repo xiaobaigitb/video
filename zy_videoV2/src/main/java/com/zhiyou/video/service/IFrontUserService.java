@@ -42,4 +42,8 @@ public interface IFrontUserService {
 
 	//通过ID查找用户的权限
     List<String> selectRolesById(int id);
+
+	List<UserModel> selectUserList();
+
+	void updateUserStatus(int userId);
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->  
+<mapper namespace="com.zhiyou.video.mapper.UserRoleMapper">
+  
+
+  
+  <!-- 添加主讲人信息 -->
+  <insert id="addUserRoleModel">
+  	insert into user_role (user_id,role_id)
+  	 values(#{userId},2)
+  </insert>
+  
+  <!--&lt;!&ndash; 修改主讲人信息 &ndash;&gt;-->
+  <!--<update id="updateSpeakerById" parameterType="SpeakerModel">-->
+  	<!--update speaker set speaker_name=#{speakerName},speaker_job=#{speakerJob},speaker_head_url=#{speakerHeadUrl},-->
+  		<!--speaker_descr=#{speakerDescr},update_time=#{updateTime}-->
+  		<!--where id=#{id}-->
+  <!--</update>-->
+  
+
+  
+</mapper>

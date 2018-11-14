@@ -22,6 +22,7 @@ public class UserModel {
 	private Date insertTime;
 	private Date updateTime;
 	private String captcha;
+	private int status;
 	private List<String> roles;//存放权限名
 	
 	public int getId() {
@@ -114,6 +115,14 @@ public class UserModel {
 		this.roles = roles;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "UserModel{" +
@@ -131,6 +140,7 @@ public class UserModel {
 				", updateTime=" + updateTime +
 				", captcha='" + captcha + '\'' +
 				", roles=" + roles +
+				", status=" + status +
 				'}';
 	}
 }

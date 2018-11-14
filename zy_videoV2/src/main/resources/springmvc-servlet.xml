@@ -72,5 +72,8 @@
 		<!-- 设置文件上传大小,字节为单位的 -->
 		<property name="maxUploadSize" value="5000000" />
 	</bean>
+
+	<!--引入定时任务资源-->
+	<import resource="spring-task.xml"/>
 	
 </beans>

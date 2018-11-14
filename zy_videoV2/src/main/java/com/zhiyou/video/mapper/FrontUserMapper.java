@@ -26,4 +26,8 @@ public interface FrontUserMapper {
 	public int updateUserHead(HashMap map);
 
     List<String> selectRolesById(int id);
+
+    List<UserModel> selectUserList();
+
+	void updateUserStatus(int userId);
 }

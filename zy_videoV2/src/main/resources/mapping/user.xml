@@ -19,7 +19,22 @@
 		<result property="insertTime" column="insert_time"/>
 		<result property="updateTime" column="update_time"/>
 		<result property="captcha" column="captcha"/>
+		<result property="status" column="status"/>
 	</resultMap>
+
+    <!-- 更新用户的状态 -->
+    <update id="updateUserStatus" parameterType="java.util.HashMap">
+  	update user set status=1 where id=#{userId}
+  </update>
+
+	<!--查询用户表中所用用户-->
+	<select id="selectUserList" resultType="com.zhiyou.video.model.UserModel">
+        select
+        *
+        from
+        user
+        where status=0
+    </select>
 
 	<!--//通过id查找role-->
 	<select id="selectRolesById" resultType="java.lang.String">
@@ -38,8 +53,8 @@
   </select>
   <!-- 新增用户 -->
   <insert id="insertUserModel" parameterType="UserModel" useGeneratedKeys="true" keyProperty="id">
-  	insert into user(nick_name,password,sex,birthday,province,city,head_url,insert_time,update_time,email)
-  	values(#{nickName},#{password},#{sex},#{birthday},#{province},#{city},#{headUrl},#{insertTime},#{updateTime},#{email})
+  	insert into user(nick_name,password,sex,birthday,province,city,head_url,insert_time,update_time,email,status)
+  	values(#{nickName},#{password},#{sex},#{birthday},#{province},#{city},#{headUrl},#{insertTime},#{updateTime},#{email},0)
   </insert>
   <!-- 更新用户基本信息，不包括密码和头像 -->
   <update id="updateUserInfo" parameterType="UserModel">

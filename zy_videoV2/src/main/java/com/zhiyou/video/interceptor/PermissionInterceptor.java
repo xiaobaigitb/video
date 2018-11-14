@@ -57,6 +57,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             if (intersection.size()>0){
                 return true;
             }else {
+                //response.sendRedirect(request.getContextPath()+"/index.do");
                 return false;
             }
 
