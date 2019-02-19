@@ -58,13 +58,11 @@ public class FrontUserController extends FrontBaseController {
         //先登录
         //登录失败返回页面，登录成功将用户信息放到session中
         LoginResult result = userService.loginUser(email, password);
-
         //用来封装登录结果信息，最终是转换为json返回到页面
         HashMap map = new HashMap();
 
         if (!result.isSuccess()) {
             //登录失败
-            System.out.println(">>>>>登录失败了：" + result.getMessage());
             map.put("false", false);
             map.put("message", result.getMessage());
         } else {
@@ -94,11 +92,9 @@ public class FrontUserController extends FrontBaseController {
     public Object regist(RegistUserInfo userInfo, HttpServletRequest request) {
         //注册功能，得到注册信息，然后调用service的注册方法，得到注册结果
         RegistResult result = userService.registUser(userInfo);
-
         //用来封装登录结果信息，最终是转换为json返回到页面
         HashMap map = new HashMap();
         if (!result.isSuccess()) {
-            System.out.println(">>>>>注册失败：" + result.getMessage());
             map.put("false", false);
             map.put("message", result.getMessage());
             return map;
@@ -111,7 +107,7 @@ public class FrontUserController extends FrontBaseController {
     }
 
     @RequestMapping("/vipIndex.do")
-    public String index(){
+    public String index() {
 
         return "front/01-vip/vip";
     }
@@ -133,7 +129,6 @@ public class FrontUserController extends FrontBaseController {
 
         request.getSession().setAttribute("vipUser", vipModel);
         ResponseVo aaa = new ResponseVo(200, "开通成功", vipModel);
-        System.out.println("aaaaaaaaaaaaaaa");
         System.out.println(aaa.toString());
         //return aaa;
         return "redirect:/index.do";
@@ -149,9 +144,7 @@ public class FrontUserController extends FrontBaseController {
     public String profile(HttpSession session, Model model) {
         //根据当前用户查询基本信息，然后返回个人中心页面
         UserModel user = getCurrentUser(session);
-
         model.addAttribute("user", user);
-
         return "front/user/index";
     }
 

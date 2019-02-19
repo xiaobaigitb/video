@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.zhiyou</groupId>
-  <artifactId>lyz-video</artifactId>
+  <artifactId>lyz-videoV2</artifactId>
   <packaging>war</packaging>
   <version>0.0.2-SNAPSHOT</version>
   <name>video Maven Webapp</name>
@@ -123,6 +123,12 @@
       <artifactId>commons-collections4</artifactId>
       <version>4.1</version>
     </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.12</version>
+          <scope>compile</scope>
+      </dependency>
 
   </dependencies>
   <build>
