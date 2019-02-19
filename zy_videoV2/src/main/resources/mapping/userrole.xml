@@ -12,7 +12,18 @@
   	insert into user_role (user_id,role_id)
   	 values(#{userId},2)
   </insert>
-  
+
+    <!-- 添加主讲人信息 -->
+    <insert id="addUserRoleModelByUserId">
+  	insert into user_role (user_id,role_id)
+  	 values(#{userId},#{roleId})
+  </insert>
+
+    <!-- 修改主讲人信息 -->
+    <update id="updateUserRoleModelByUserId">
+    update user_role set role_id=#{roleId}
+    where user_id=#{userId}
+    </update>
   <!--&lt;!&ndash; 修改主讲人信息 &ndash;&gt;-->
   <!--<update id="updateSpeakerById" parameterType="SpeakerModel">-->
   	<!--update speaker set speaker_name=#{speakerName},speaker_job=#{speakerJob},speaker_head_url=#{speakerHeadUrl},-->

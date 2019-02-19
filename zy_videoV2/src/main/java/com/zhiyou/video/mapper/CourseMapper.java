@@ -1,5 +1,6 @@
 package com.zhiyou.video.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.zhiyou.video.model.CourseModel;
@@ -25,5 +26,8 @@ public interface CourseMapper {
 	public List<CourseModel> queryCoursesBySubject(int id);
 	
 	public SubjectModel querySubjectById(int id);
-	
+
+    int queryCourseListCount(HashMap map);
+
+	List<CourseModel> queryCoursePageList(HashMap map);
 }

@@ -3,10 +3,13 @@ package com.zhiyou.video.service;
 import com.zhiyou.video.bean.RegistResult;
 import com.zhiyou.video.bean.LoginResult;
 import com.zhiyou.video.bean.OperateResult;
+import com.zhiyou.video.model.CallerModel;
 import com.zhiyou.video.model.UserModel;
 import com.zhiyou.video.query.RegistUserInfo;
 import com.zhiyou.video.query.UpdatePwdInfo;
+import com.zhiyou.video.util.PageInfo;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -46,4 +49,20 @@ public interface IFrontUserService {
 	List<UserModel> selectUserList();
 
 	void updateUserStatus(int userId);
+
+    List<UserModel> queryUserModels();
+
+    boolean deleteById(int id);
+
+    boolean updateUserById(UserModel model);
+
+	int addUserModel(UserModel model);
+
+    PageInfo<UserModel> queryUserPageList(HashMap map);
+
+	void updateUserRoleId(int i);
+
+	void updateUserSubjectById(int userId);
+
+	void updateUserStatusByEmail(String email);
 }

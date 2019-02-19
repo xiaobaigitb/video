@@ -6,15 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.zhiyou.video.model.CallerModel;
+import com.zhiyou.video.util.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.zhiyou.video.model.CourseModel;
 import com.zhiyou.video.model.SpeakerModel;
@@ -25,6 +24,9 @@ import com.zhiyou.video.service.ISpeakerService;
 import com.zhiyou.video.service.IVideoService;
 import com.zhiyou.video.validator.VideoAddValidator;
 import com.zhiyou.video.validator.VideoEditValidator;
+
+import static com.zhiyou.video.controller.AdminBaseController.DEFAULT_PAGE;
+import static com.zhiyou.video.controller.AdminBaseController.DEFAULT_PAGE_SIZE;
 
 /**
  * Descr:
@@ -39,9 +41,20 @@ public class VideoController {
 	ICourseService courseService;
 	@Autowired
 	ISpeakerService speakerService;
-	
+
 	@RequestMapping("index.do")
-	public String index(@ModelAttribute("query") VideoListQuery query,Model model){
+	public String index(@RequestParam(required = false) Integer pageNum, @ModelAttribute("query") VideoListQuery query, Model model){
+		//根据主讲人名称和主讲人职位查询信息
+		HashMap map = new HashMap();
+		if (pageNum == null || pageNum < 0) pageNum = DEFAULT_PAGE;
+		map.put("pageNum", pageNum);
+		map.put("pageSize", DEFAULT_PAGE_SIZE);
+		//添加分页相关操作
+		PageInfo<VideoModel> list = videoService.queryVideoPageList(map);
+		//和上边的index.do用的是同一个页面，所以封装数据的名字也必须一样
+		model.addAttribute("pageInfo", list);
+
+
 		List<VideoModel> results = videoService.queryVideoModels(query);
 		model.addAttribute("results", results);
 		
@@ -67,7 +80,7 @@ public class VideoController {
 			querys(mo);
 			return "admin/video/saveOrUpdate";
 		}
-		
+
 		return saveOrUpdate(model);
 	}
 	

@@ -9,7 +9,21 @@
 <title>后台登录页面</title>
 <link href="static/css/bootstrap.min.css" rel="stylesheet">
 <!-- <script src="static/js/bootstrap.min.js"></script> -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
+    body {
+      background: url(/static/img/63.jpg) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+
+  </style>
 <style type="text/css">
 	.login_form{
 		margin-top: 20%;

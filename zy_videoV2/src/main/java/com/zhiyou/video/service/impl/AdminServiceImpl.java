@@ -1,7 +1,10 @@
 package com.zhiyou.video.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
+import com.zhiyou.video.model.CourseModel;
+import com.zhiyou.video.model.SubjectModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +33,32 @@ public class AdminServiceImpl implements IAdminService {
 		AdminModel model = mapper.loginByName(map);
 		
 		return model;
+	}
+
+	@Override
+	public List<AdminModel> queryAdminModels() {
+
+		return mapper.queryAdminModels();
+	}
+
+	@Override
+	public boolean deleteById(int id) {
+		return mapper.deleteById(id);
+	}
+
+	@Override
+	public AdminModel queryAdminById(int id) {
+		return mapper.queryAdminById(id);
+	}
+
+	@Override
+	public int addAdminModel(AdminModel model) {
+		return mapper.addAdminModel(model);
+	}
+
+	@Override
+	public boolean updateAdminModel(AdminModel model) {
+		return mapper.updateAdminModel(model);
 	}
 
 }

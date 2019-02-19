@@ -1,34 +1,102 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- namespace的路径必须是mapper接口的路径 -->  
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->
 <mapper namespace="com.zhiyou.video.mapper.FrontUserMapper">
-	<!-- 封装查询结果 -->
-	<resultMap type="UserModel" id="userMap">
-		<id property="id" column="id"/>
-		<result property="nickName" column="nick_name"/>
-		<result property="sex" column="sex"/>
-		<result property="birthday" column="birthday"/>
-		<result property="birthdayStr" column="birthday_str"/>
-		<result property="email" column="email"/>
-		<result property="province" column="province"/>
-		<result property="city" column="city"/>
-		<result property="headUrl" column="head_url"/>
-		<result property="password" column="password"/>
-		<result property="insertTime" column="insert_time"/>
-		<result property="updateTime" column="update_time"/>
-		<result property="captcha" column="captcha"/>
-		<result property="status" column="status"/>
-	</resultMap>
+    <!-- 封装查询结果 -->
+    <resultMap type="UserModel" id="userMap">
+        <id property="id" column="id"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="sex" column="sex"/>
+        <result property="birthday" column="birthday"/>
+        <result property="birthdayStr" column="birthday_str"/>
+        <result property="email" column="email"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="headUrl" column="head_url"/>
+        <result property="password" column="password"/>
+        <result property="insertTime" column="insert_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="captcha" column="captcha"/>
+        <result property="status" column="status"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleId" column="role_id"/>
+        <result property="subjectName" column="subject_name"/>
+        <result property="subjectId" column="subject_id"/>
+    </resultMap>
+
+    <select id="queryUserListCount" parameterType="java.util.HashMap" resultType="int">
+        select count(*)
+        from user
+    </select>
+    <select id="queryUserPageList" parameterType="java.util.HashMap" resultMap="userMap" >
+        select
+        l.*,m.subject_name,o.role_name
+        from
+        user l, subject m,role o
+        where
+        l.subject_id=m.id
+        AND
+        l.role_id=o.id
+        <if test="start!=null">
+            limit #{start},#{pageSize}
+        </if>
+
+    </select>
+
+    <!-- useGeneratedKeys是控制是否返回自增字段的值，详细信息参考mybatis官网文档 xml映射文件篇章说明 -->
+    <insert id="addUserModel" parameterType="UserModel" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+  	insert into user (nick_name,sex,email,city,status,subject_id,role_id,password)
+  	 values(#{nickName},#{sex},#{email},#{city},#{status},#{subjectId},#{roleId},#{password})
+  </insert>
+
+    <!-- 修改预约人信息 -->
+    <update id="updateUserById" parameterType="UserModel">
+  	update user set nick_name=#{nickName},sex=#{sex},email=#{email},
+  		city=#{city},status=#{status},subject_id=#{subjectId},role_id=#{roleId},password=#{password}
+  		where id=#{id}
+  </update>
+
+    <delete id="deleteById" parameterType="int">
+  	delete from user where id=#{id}
+  </delete>
+
+    <!--后台管理查询用户信息：姓名。email。状态。权限-->
+    <select id="queryUserModels" resultMap="userMap">
+        select
+        l.*,m.subject_name,o.role_name
+        from
+        user l, subject m,role o
+        where
+        l.subject_id=m.id
+          AND
+        l.role_id=o.id
+    </select>
+
+
 
     <!-- 更新用户的状态 -->
-    <update id="updateUserStatus" parameterType="java.util.HashMap">
+    <update id="updateUserStatusByEmail" parameterType="java.lang.String">
+  	update user set status=0 where email=#{email}
+  </update>
+
+    <!-- 更新用户的权限 -->
+    <update id="updateUserSubjectById" parameterType="java.lang.Integer">
+  	update user set subject_id=1 where id=#{userId}
+  </update>
+
+    <!-- 更新用户的权限 -->
+    <update id="updateUserRoleId" parameterType="java.lang.Integer">
+  	update user set role_id=2 where id=#{userId}
+  </update>
+    <!-- 更新用户的状态 -->
+    <update id="updateUserStatus" parameterType="java.lang.Integer">
   	update user set status=1 where id=#{userId}
   </update>
 
-	<!--查询用户表中所用用户-->
-	<select id="selectUserList" resultType="com.zhiyou.video.model.UserModel">
+    <!--查询用户表中所用用户-->
+    <select id="selectUserList" resultType="com.zhiyou.video.model.UserModel">
         select
         *
         from
@@ -36,10 +104,10 @@
         where status=0
     </select>
 
-	<!--//通过id查找role-->
-	<select id="selectRolesById" resultType="java.lang.String">
+    <!--//通过id查找role-->
+    <select id="selectRolesById" resultType="java.lang.String">
         select
-        r.name
+        r.role_name
         from
         user l, user_role m, role r
         where l.id=#{id}
@@ -47,37 +115,37 @@
         and r.id=m.role_id
     </select>
 
-	<!-- 根据邮箱查询用户 -->
-  <select id="queryUserByEmail" resultMap="userMap">
+    <!-- 根据邮箱查询用户 -->
+    <select id="queryUserByEmail" resultMap="userMap">
     select *,date_format(birthday,'%Y-%m-%d') as birthday_str from user where email=#{email}
   </select>
-  <!-- 新增用户 -->
-  <insert id="insertUserModel" parameterType="UserModel" useGeneratedKeys="true" keyProperty="id">
+    <!-- 新增用户 -->
+    <insert id="insertUserModel" parameterType="UserModel" useGeneratedKeys="true" keyProperty="id">
   	insert into user(nick_name,password,sex,birthday,province,city,head_url,insert_time,update_time,email,status)
   	values(#{nickName},#{password},#{sex},#{birthday},#{province},#{city},#{headUrl},#{insertTime},#{updateTime},#{email},0)
   </insert>
-  <!-- 更新用户基本信息，不包括密码和头像 -->
-  <update id="updateUserInfo" parameterType="UserModel">
+    <!-- 更新用户基本信息，不包括密码和头像 -->
+    <update id="updateUserInfo" parameterType="UserModel">
   	update user set nick_name=#{nickName},sex=#{sex},birthday=#{birthday},province=#{province},
   		city=#{city},update_time=#{updateTime}
   		where id=#{id}
   </update>
-  
-  <!-- 根据id查询用户 -->
-  <select id="queryUserById" resultMap="userMap">
+
+    <!-- 根据id查询用户 -->
+    <select id="queryUserById" resultMap="userMap">
   	select *,date_format(birthday,'%Y-%m-%d') as birthday_str from user where id=#{id}
   </select>
-  <!-- 更新验证码 -->
-  <update id="updateCaptcha" parameterType="java.util.HashMap">
+    <!-- 更新验证码 -->
+    <update id="updateCaptcha" parameterType="java.util.HashMap">
   	update user set captcha=#{captcha} where email=#{email}
   </update>
-  <!-- 更新用户密码 -->
-  <update id="updateUserPwd" parameterType="java.util.HashMap">
+    <!-- 更新用户密码 -->
+    <update id="updateUserPwd" parameterType="java.util.HashMap">
   	update user set password=#{pwd} where id=#{id}
   </update>
-  
-  <update id="updateUserHead" parameterType="java.util.HashMap">
+
+    <update id="updateUserHead" parameterType="java.util.HashMap">
   	update user set head_url=#{head} where id=#{id}
   </update>
-  
+
 </mapper>

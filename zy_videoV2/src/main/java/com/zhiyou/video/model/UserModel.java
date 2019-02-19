@@ -23,8 +23,30 @@ public class UserModel {
 	private Date updateTime;
 	private String captcha;
 	private int status;
+	private int subjectId;
+	private int roleId;
+	private String subjectName;
+	private String roleName;
 	private List<String> roles;//存放权限名
-	
+
+	public String getSexView(){
+		if(this.sex==1){
+			return "男";
+		}else if(this.sex==2){
+			return "女";
+		}else{
+			return "错误";
+		}
+	}
+
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -123,6 +145,30 @@ public class UserModel {
 		this.status = status;
 	}
 
+	public int getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(int subjectId) {
+		this.subjectId = subjectId;
+	}
+
+	public String getSubjectName() {
+		return subjectName;
+	}
+
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
 	@Override
 	public String toString() {
 		return "UserModel{" +
@@ -139,8 +185,12 @@ public class UserModel {
 				", insertTime=" + insertTime +
 				", updateTime=" + updateTime +
 				", captcha='" + captcha + '\'' +
-				", roles=" + roles +
 				", status=" + status +
+				", subjectId=" + subjectId +
+				", roleId=" + roleId +
+				", subjectName='" + subjectName + '\'' +
+				", roleName='" + roleName + '\'' +
+				", roles=" + roles +
 				'}';
 	}
 }

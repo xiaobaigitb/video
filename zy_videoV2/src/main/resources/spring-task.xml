@@ -18,7 +18,7 @@
         <!--ref：表示定时调度的类注入到spring中的名字（首字母小写其余按照驼峰法命名）
             method：实际运行类中的方法
             cron：表示多久运行一次，* * * * * ?：表示每秒运行一次-->
-        <task:scheduled ref="intelligence" method="autoUpdateRole" cron="* * * * * ?"/>
+        <task:scheduled ref="intelligence" method="autoUpdateRole" cron="0 * * * * ?"/>
         <!--<task:scheduled ref="taskDemo" method="world" cron="* * * * * ?"/>-->
         <!--<task:scheduled ref="task" method="hello" cron="* * * * * ?"/>-->
         <!--<task:scheduled ref="task" method="word" cron="* * * * * ?"/>-->

@@ -1,20 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- namespace的路径必须是mapper接口的路径 -->  
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->
 <mapper namespace="com.zhiyou.video.mapper.AdminMapper">
-	<!-- 封装查询结果 -->
-	<resultMap type="AdminModel" id="adminMap">
-		<id property="id" column="id"/>
-		<result property="login_name" column="loginName"/>
-		<result property="login_pwd" column="loginPwd"/>
-	</resultMap>
+    <!-- 封装查询结果 -->
+    <resultMap type="AdminModel" id="adminMap">
+        <id property="id" column="id"/>
+        <result property="login_name" column="loginName"/>
+        <result property="login_pwd" column="loginPwd"/>
+        <result column="insert_time" property="insertTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
 
 
-	<!-- 根据用户名密码查询管理员信息 -->
-  <select id="loginByName" parameterType="java.util.HashMap" resultMap="adminMap">
+    <!-- 根据用户名密码查询管理员信息 -->
+    <select id="loginByName" parameterType="java.util.HashMap" resultMap="adminMap">
     select * from admin where login_name=#{loginName} and login_pwd=#{loginPwd}
   </select>
-  
+
+    <!--查询管理员信息列表-->
+    <select id="queryAdminModels" resultMap="adminMap">
+  	select * from admin
+  </select>
+    <!--通过ID删除管理员-->
+    <delete id="deleteById" parameterType="int">
+  	delete from admin where id=#{id}
+  </delete>
+
+    <!-- useGeneratedKeys是控制是否返回自增字段的值，详细信息参考mybatis官网文档 xml映射文件篇章说明 -->
+    <insert id="addAdminModel" parameterType="AdminModel" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+  	insert into course (login_name,login_pwd,insert_time,update_time)
+  	 values(#{loginName},#{loginPwd},#{insertTime},#{updateTime})
+  </insert>
+
+    <!-- 修改管理员信息 -->
+    <update id="updateAdminModel" parameterType="AdminModel">
+  	update admin set login_name=#{loginName},login_pwd=#{loginPwd},
+  		update_time=#{updateTime}
+  		where id=#{id}
+  </update>
+
+    <select id="queryAdminById" parameterType="int" resultMap="adminMap">
+  	 select * from admin
+  	where id=#{id}
+  </select>
+
 </mapper>

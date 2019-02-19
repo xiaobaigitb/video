@@ -10,4 +10,8 @@ package com.zhiyou.video.service;
 public interface UserRoleService {
 
     void addUserRoleModel(int userId, int i);
+
+    void addUserRoleModelByUserId(int userId, int roleId);
+
+    void updateUserRoleModelByUserId(int userId, int roleId);
 }

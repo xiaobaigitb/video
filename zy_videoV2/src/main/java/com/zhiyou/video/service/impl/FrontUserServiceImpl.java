@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.zhiyou.video.bean.RegistResult;
+import com.zhiyou.video.model.CallerModel;
+import com.zhiyou.video.util.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,7 @@ public class FrontUserServiceImpl implements IFrontUserService {
             user.setPassword(MD5Utils.getMd5Simple(userInfo.getPassword()));
             user.setInsertTime(new Date());
             user.setUpdateTime(new Date());
+            user.setStatus(0);
             int i = mapper.insertUserModel(user);
             if (i > 0) {
                 //数据添加成功，才算注册成功，然后把当前的用户信息也返回给控制器使用
@@ -173,6 +176,73 @@ public class FrontUserServiceImpl implements IFrontUserService {
     @Override
     public void updateUserStatus(int userId) {
         mapper.updateUserStatus(userId);
+    }
+
+    @Override
+    public List<UserModel> queryUserModels() {
+        return mapper.queryUserModels();
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        return mapper.deleteById(id);
+    }
+
+    @Override
+    public boolean updateUserById(UserModel model) {
+        return mapper.updateUserById(model);
+    }
+
+    @Override
+    public int addUserModel(UserModel model) {
+        boolean i= mapper.addUserModel(model);
+        return model.getId();
+    }
+
+    @Override
+    public PageInfo<UserModel> queryUserPageList(HashMap map) {
+        int pageNum = Integer.parseInt(map.get("pageNum").toString());
+        int pageSize = Integer.parseInt(map.get("pageSize").toString());
+        int allNum = 0;//总数量
+        int pageNums = 0;//总页数
+
+        allNum = mapper.queryUserListCount(map);
+        if(allNum%pageSize==0){
+            pageNums = allNum/pageSize;
+        }else{
+            pageNums = allNum/pageSize+1;
+        }
+
+        int start = (pageNum-1)*pageSize;//查询sql数据的起始位置
+
+        //查询数据
+        map.put("start", start);
+        List<UserModel> result = mapper.queryUserPageList(map);
+
+        //封装
+        PageInfo<UserModel> pageinfo = new PageInfo<UserModel>();
+        pageinfo.setAllNum(allNum);
+        pageinfo.setPageNum(pageNum);
+        pageinfo.setPageNums(pageNums);
+        pageinfo.setPageSize(pageSize);
+        pageinfo.setResults(result);
+
+        return pageinfo;
+    }
+
+    @Override
+    public void updateUserRoleId(int userId) {
+        mapper.updateUserRoleId(userId);
+    }
+
+    @Override
+    public void updateUserSubjectById(int userId) {
+        mapper.updateUserSubjectById(userId);
+    }
+
+    @Override
+    public void updateUserStatusByEmail(String email) {
+        mapper.updateUserStatusByEmail(email);
     }
 
 }

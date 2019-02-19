@@ -32,6 +32,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //判断有没有登录
         UserModel user = (UserModel) request.getSession().getAttribute("_front_user");
+        System.out.println("拦截器user: "+user.toString());
         if (user==null){
             System.out.println("用户未登录，返回登录页面");
             response.sendRedirect(request.getContextPath()+"/index.do");
@@ -53,6 +54,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             String[] roles = method.getMethod().getAnnotation(Permission.class).role();
             //通过方法获得两个方法的交集
             Collection<String> intersection = CollectionUtils.intersection(roleList, Arrays.asList(roles));
+            System.out.println("交际： "+intersection.size());
             //判断是否有交集
             if (intersection.size()>0){
                 return true;
@@ -60,7 +62,6 @@ public class PermissionInterceptor implements HandlerInterceptor {
                 //response.sendRedirect(request.getContextPath()+"/index.do");
                 return false;
             }
-
         }
     }
 

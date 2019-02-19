@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->
+<mapper namespace="com.zhiyou.video.mapper.VipMapper">
+
+    <insert id="addVipUser" >
+        insert into vip values (null,#{email},#{payment},2250,0);
+    </insert>
+
+</mapper>

@@ -105,29 +105,53 @@
     </div>
 </div>
 
-
 <!--报名表单-->
 <div class="form_area">
     <div class="container">
         <p class="title"><b>这个世界上可以选择的很多，可以改变命运的选择很少<br/>你现在准备好向梦想出发了吗？</b></p>
-        <form id="iform" action="/front/caller.do" enctype="multipart/form-data" method="post">
-            <div class="form_line1"></div>
-            <div class="form_line2"></div>
-            <div class="wrap">
-                <input type="hidden" name="action" value="post"/>
-                <input type="hidden" name="diyid" value="3"/>
-                <input type="hidden" name="do" value="2"/>
-                <input type="hidden" name="ip" value=""/>
-                <input type="hidden" name="time" value=""/>
-                <div><label for="visitorName">姓名：</label><input name="visitorName" id="visitorName" type="text"
-                                                                class="form-control"/></div>
-                <div><label for="tel">手机号：</label><input name="tel" id="tel" type="text" class="form-control"/></div>
-                <div><label for="qq">QQ：</label><input name="qq" id="qq" type="text" class="form-control"/></div>
-            </div>
-            <input class="button" type="submit" value="立即报名"/>
-        </form>
     </div>
 </div>
+
+<div class="course">
+    <div class="container">
+        <div class="course-info">
+            <div class="audition"><a href='<c:url value="/front/register.do" ></c:url> '>立即预约</a></div>
+            </a>
+        </div>
+    </div>
+</div>
+<%--<div class="form_area">--%>
+    <%--<div class="container">--%>
+        <%--<p class="title"><b>这个世界上可以选择的很多，可以改变命运的选择很少<br/>你现在准备好向梦想出发了吗？</b></p>--%>
+        <%--<form id="iform" action="/front/caller.do" enctype="multipart/form-data" method="post">--%>
+            <%--<div class="form_line1"></div>--%>
+            <%--<div class="form_line2"></div>--%>
+            <%--<div class="wrap">--%>
+                <%--<input type="hidden" name="action" value="post"/>--%>
+                <%--<input type="hidden" name="diyid" value="3"/>--%>
+                <%--<input type="hidden" name="do" value="2"/>--%>
+                <%--<input type="hidden" name="ip" value=""/>--%>
+                <%--<input type="hidden" name="time" value=""/>--%>
+                <%--<div><label for="visitorName">姓名：</label><input name="visitorName" id="visitorName" type="text"--%>
+                                                                <%--class="form-control"/></div>--%>
+                <%--<div><label for="tel">手机号：</label><input name="tel" id="tel" type="text" class="form-control"/></div>--%>
+                <%--<div><label for="intent">选择意向课程：</label>--%>
+                    <%--<select class="in-1" name="intent" id="intent">--%>
+                    <%--<option value="Web前端教程">Web前端教程</option>--%>
+                    <%--<option value="UI设计教程">UI设计教程</option>--%>
+                    <%--<option value="java基础">java基础</option>--%>
+                    <%--<option value="Python教程">Python教程</option>--%>
+                    <%--<option value="React教程">React教程</option>--%>
+                    <%--<option value="PHP教程">PHP教程</option>--%>
+                <%--</select></div>--%>
+
+                <%--<div><label for="age">年龄：</label><input name="age" id="age" type="text" class="form-control"/></div>--%>
+                <%--<div><label for="sex">性别：</label><input name="sex" id="sex" type="text" class="form-control"/></div>--%>
+            <%--</div>--%>
+            <%--<input class="button" type="submit" value="立即报名"/>--%>
+        <%--</form>--%>
+    <%--</div>--%>
+<%--</div>--%>
 
 <%@include file="include/footer.jsp" %>
 

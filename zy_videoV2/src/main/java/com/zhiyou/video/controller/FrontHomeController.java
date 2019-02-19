@@ -57,7 +57,7 @@ public class FrontHomeController extends FrontBaseController{
 	
 	/**
 	 * 请求发送邮件，目前来说只有找回密码有发送邮件功能，如果多个功能都有，就要考虑复用性和url名字可识性
-	 * 改为ajax方式 2017-07-25
+	 * 改为ajax方式
 	 * @param email
 	 * @return
 	 */
@@ -143,9 +143,9 @@ public class FrontHomeController extends FrontBaseController{
 				//删除验证码
 				userService.cleanCaptcha(user.getEmail());
 				model.addAttribute("message", "密码更新成功了，请重新登录");
-				return "front/message";
+				//return "front/message";
 				//跳到首页了，其实应该用ajax，返回个更新成功的消息的
-//				return "redirect:/index.do";
+				return "redirect:/index.do";
 			}else{
 				//验证码不对或验证码不存在
 				model.addAttribute("message","验证码不正确或不存在");

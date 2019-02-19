@@ -12,7 +12,7 @@
 	      <a href="#" aria-label="Previous" onclick="return false;"><span aria-hidden="true">&laquo;</span></a>
 	    </li>
     </c:if>
-    <c:if test="${pageInfo.pageNum>1 }">
+    <c:if test="${pageInfo.pageNum>4 }">
 	    <li>
 	      <a href="javascript:void(0);" aria-label="Previous" onclick="queryPage(${pageInfo.pageNum-1});"><span aria-hidden="true">&laquo;</span></a>
 	    </li>

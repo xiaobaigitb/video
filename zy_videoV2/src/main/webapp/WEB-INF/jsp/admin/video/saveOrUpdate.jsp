@@ -31,7 +31,7 @@
   <div class="form-group">
     <label for="videoTitle" class="col-sm-2 control-label">视频标题</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="videoTitle" id="speakerName" value="${video.videoTitle }" placeholder="视频标题">
+      <input type="text" class="form-control" name="videoTitle" id="videoTitle" value="${video.videoTitle }" placeholder="视频标题">
     </div>
   </div>
    <div class="form-group">

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.zhiyou.video.model.VideoModel;
 import com.zhiyou.video.query.VideoListQuery;
+import com.zhiyou.video.util.PageInfo;
 
 /**
  * Descr:
@@ -29,6 +30,7 @@ public interface IVideoService {
 	
 	//统计每个课程下视频的平均播放次数
 	public List<HashMap> stateCourseAvgPlaytimes();
-	
-	
+
+
+	PageInfo<VideoModel> queryVideoPageList(HashMap map);
 }

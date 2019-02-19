@@ -13,7 +13,19 @@ public class CallerModel {
     private int id;
     private String visitorName;
     private String tel;
-    private String qq;
+    private String intent;
+    private String age;
+    private String sex;
+    private String classTime;
+    private String alreadyTime;
+
+    public String getAlreadyTime() {
+        return alreadyTime;
+    }
+
+    public void setAlreadyTime(String alreadyTime) {
+        this.alreadyTime = alreadyTime;
+    }
 
     public int getId() {
         return id;
@@ -39,12 +51,36 @@ public class CallerModel {
         this.tel = tel;
     }
 
-    public String getQq() {
-        return qq;
+    public String getIntent() {
+        return intent;
     }
 
-    public void setQq(String qq) {
-        this.qq = qq;
+    public void setIntent(String intent) {
+        this.intent = intent;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getClassTime() {
+        return classTime;
+    }
+
+    public void setClassTime(String classTime) {
+        this.classTime = classTime;
     }
 
     @Override
@@ -53,7 +89,11 @@ public class CallerModel {
                 "id=" + id +
                 ", visitorName='" + visitorName + '\'' +
                 ", tel='" + tel + '\'' +
-                ", qq='" + qq + '\'' +
+                ", intent='" + intent + '\'' +
+                ", age='" + age + '\'' +
+                ", sex='" + sex + '\'' +
+                ", classTime='" + classTime + '\'' +
+                ", alreadyTime='" + alreadyTime + '\'' +
                 '}';
     }
 }

@@ -26,7 +26,6 @@
     <div class="container mian-nav">公开课 / ${subject.subjectName}</div>
     <input type="hidden" id="videoId" value="${videoId}">
     <div id="content">
-		
     </div>
 </div>
     

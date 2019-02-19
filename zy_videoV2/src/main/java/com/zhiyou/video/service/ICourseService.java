@@ -1,9 +1,11 @@
 package com.zhiyou.video.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.zhiyou.video.model.CourseModel;
 import com.zhiyou.video.model.SubjectModel;
+import com.zhiyou.video.util.PageInfo;
 
 /**
  * Descr:
@@ -26,5 +28,6 @@ public interface ICourseService {
 	public List<CourseModel> queryCoursesBySubject(int subject);
 	
 	public SubjectModel querySubjectById(int subject);
-	
+
+    PageInfo<CourseModel> queryCoursePageList(HashMap map);
 }

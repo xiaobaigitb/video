@@ -34,6 +34,10 @@ public class Intelligence {
                 userRoleService.addUserRoleModel(userId,2);
                 //插入之后修改，用户的状态
                 frontUserService.updateUserStatus(userId);
+                //插入之后修改，用户的权限
+                frontUserService.updateUserRoleId(userId);
+                //插入之后修改，用户的学科id
+                frontUserService.updateUserSubjectById(userId);
             }
         }
     }

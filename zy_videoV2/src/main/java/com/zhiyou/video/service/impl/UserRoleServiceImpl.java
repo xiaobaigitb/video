@@ -22,4 +22,14 @@ public class UserRoleServiceImpl implements UserRoleService {
     public void addUserRoleModel(@Param("userId") int userId, int i) {
         mapper.addUserRoleModel(userId,2);
     }
+
+    @Override
+    public void addUserRoleModelByUserId(@Param("userId") int userId,@Param("roleId") int roleId) {
+        mapper.addUserRoleModelByUserId(userId,roleId);
+    }
+
+    @Override
+    public void updateUserRoleModelByUserId(@Param("userId") int userId,@Param("roleId")  int roleId) {
+        mapper.updateUserRoleModelByUserId(userId,roleId);
+    }
 }

@@ -1,8 +1,12 @@
 package com.zhiyou.video.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.zhiyou.video.model.CallerModel;
+import com.zhiyou.video.util.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.zhiyou.video.model.CourseModel;
 import com.zhiyou.video.model.SubjectModel;
 import com.zhiyou.video.service.ICourseService;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import static com.zhiyou.video.controller.AdminBaseController.DEFAULT_PAGE;
+import static com.zhiyou.video.controller.AdminBaseController.DEFAULT_PAGE_SIZE;
 
 /**
  * 
@@ -30,11 +39,19 @@ public class CourseController {
 	 * @return
 	 */
 	@RequestMapping("index.do")
-	public String index(Model model){
+	public String index(@RequestParam(required = false) Integer pageNum, Model model){
+		//根据主讲人名称和主讲人职位查询信息
+		HashMap map = new HashMap();
+		if (pageNum == null || pageNum < 0) pageNum = DEFAULT_PAGE;
+		map.put("pageNum", pageNum);
+		map.put("pageSize", DEFAULT_PAGE_SIZE);
+		//添加分页相关操作
+		PageInfo<CourseModel> list = courseService.queryCoursePageList(map);
+		//和上边的index.do用的是同一个页面，所以封装数据的名字也必须一样
+		model.addAttribute("pageInfo", list);
 		
-		
-		List<CourseModel> results = courseService.queryCourseModels();
-		model.addAttribute("results", results);
+//		List<CourseModel> results = courseService.queryCourseModels();
+//		model.addAttribute("results", results);
 		return "admin/course/index";
 	}
 	/**
@@ -86,12 +103,23 @@ public class CourseController {
 	}
 		
 	//删除方法
+	@ResponseBody
 	@RequestMapping("delete.do")
-	public String delete(int id){
+	public Map delete(int id){
 		//根据id删除
 		boolean b = courseService.deleteById(id);
-		
-		return "redirect:/admin/course/index.do";
+		//封装结果
+		HashMap map = new HashMap();
+		if (b) {
+			//删除成功
+			map.put("success", true);
+		} else {
+			map.put("success", false);
+			map.put("message", "删除视频信息失败，请重试");
+		}
+
+		return map;
+		//return "redirect:/admin/course/index.do";
 	}
 	
 	

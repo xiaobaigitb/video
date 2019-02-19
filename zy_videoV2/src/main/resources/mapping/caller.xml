@@ -9,14 +9,64 @@
         <id property="id" column="id"/>
         <result property="visitorName" column="visitor_name"/>
         <result property="tel" column="tel"/>
-        <result property="qq" column="qq"/>
+        <result property="intent" column="intent"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="classTime" column="class_time"/>
+        <result property="alreadyTime" column="already_time"/>
     </resultMap>
 
 
+    <delete id="deleteById" parameterType="int">
+  	delete from caller where id=#{id}
+  </delete>
+
+
+    <select id="queryCallerModels" resultMap="callerMap">
+    select * from caller
+  </select>
+
+    <!-- 添加主讲人信息 -->
+    <!-- useGeneratedKeys是控制是否返回自增字段的值，详细信息参考mybatis官网文档 xml映射文件篇章说明 -->
+    <insert id="addCallerModel" parameterType="CallerModel" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+  	insert into caller (visitor_name,tel,intent,age,sex,class_time,already_time)
+  	 values(#{visitorName},#{tel},#{intent},#{age},#{sex},#{classTime},#{alreadyTime})
+  </insert>
+
     <!-- 保存访问用户 -->
     <insert id="saveCaller" parameterType="CallerModel" useGeneratedKeys="true" keyProperty="id">
-  	insert into caller(visitor_name,tel,qq)
-  	values(#{visitorName},#{tel},#{qq})
+  	insert into caller(visitor_name,tel,intent,age,sex,class_time)
+  	values(#{visitorName},#{tel},#{intent},#{age},#{sex},#{classTime})
    </insert>
+
+    <!-- 根据手机号查询用户 -->
+    <select id="queryCallerByTel" resultMap="callerMap">
+    select * from caller where tel=#{tel}
+  </select>
+
+    <!-- 根据id查询用户 -->
+    <select id="queryCallerById" resultMap="callerMap">
+    select * from caller where id=#{id}
+  </select>
+
+    <!-- 修改预约人信息 -->
+    <update id="updateCallerById" parameterType="CallerModel">
+  	update caller set visitor_name=#{visitorName},tel=#{tel},intent=#{intent},already_time=#{alreadyTime},
+  		age=#{age},sex=#{sex},class_time=#{classTime}
+  		where id=#{id}
+  </update>
+
+    <select id="queryCallerListCount" parameterType="java.util.HashMap" resultType="int">
+        select count(*)
+        from caller
+    </select>
+    <select id="queryCallerPageList" parameterType="java.util.HashMap" resultMap="callerMap" >
+        select *
+        from caller
+        <if test="start!=null">
+            limit #{start},#{pageSize}
+        </if>
+
+    </select>
 
 </mapper>

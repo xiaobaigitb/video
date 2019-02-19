@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的路径必须是mapper接口的路径 -->  
+<mapper namespace="com.zhiyou.video.mapper.SubjectMapper">
+	<!-- 查询所有的主讲人信息 -->
+  <select id="querySubjects" resultType="SubjectModel">
+    select id,subject_name as subjectName from subject
+  </select>
+  
+
+</mapper>

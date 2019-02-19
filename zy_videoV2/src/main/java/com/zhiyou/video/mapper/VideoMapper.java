@@ -26,4 +26,8 @@ public interface VideoMapper {
 	public void updateVideoPlaytimes(int id);
 	
 	public List<HashMap> stateCourseAvgPlaytimes();
+
+    int queryVideoListCount(HashMap map);
+
+	List<VideoModel> queryVideoPageList(HashMap map);
 }

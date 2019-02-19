@@ -1,9 +1,12 @@
 package com.zhiyou.video.service;
 
 import com.zhiyou.video.model.AdminModel;
+import com.zhiyou.video.model.CourseModel;
+import com.zhiyou.video.model.SubjectModel;
+
+import java.util.List;
 
 /**
- * Descr:
  *
  */
 public interface IAdminService {
@@ -16,5 +19,17 @@ public interface IAdminService {
 	 * @return
 	 */
 	public AdminModel login(String loginName,String loginPwd);
+
+
+	//查询管理员用户信息
+	public List<AdminModel> queryAdminModels();
+	//通过ID删除管理员
+	public boolean deleteById(int id);
+	//通过ID查询出管理员用户
+	public AdminModel queryAdminById(int id);
+	//添加管理员
+	public int addAdminModel(AdminModel model);
+	//更新管理员信息
+	public boolean updateAdminModel(AdminModel model);
 	
 }

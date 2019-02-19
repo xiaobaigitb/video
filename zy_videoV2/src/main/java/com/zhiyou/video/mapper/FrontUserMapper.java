@@ -30,4 +30,22 @@ public interface FrontUserMapper {
     List<UserModel> selectUserList();
 
 	void updateUserStatus(int userId);
+
+    List<UserModel> queryUserModels();
+
+    boolean deleteById(int id);
+
+	boolean addUserModel(UserModel model);
+
+	boolean updateUserById(UserModel model);
+
+	List<UserModel> queryUserPageList(HashMap map);
+
+	int queryUserListCount(HashMap map);
+
+	void updateUserRoleId(int userId);
+
+	void updateUserSubjectById(int userId);
+
+	void updateUserStatusByEmail(String email);
 }

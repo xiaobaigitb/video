@@ -1,7 +1,9 @@
 package com.zhiyou.video.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.zhiyou.video.util.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +71,37 @@ public class CourseServiceImpl implements ICourseService {
 	public SubjectModel querySubjectById(int subject) {
 		// TODO Auto-generated method stub
 		return mapper.querySubjectById(subject);
+	}
+
+	@Override
+	public PageInfo<CourseModel> queryCoursePageList(HashMap map) {
+		int pageNum = Integer.parseInt(map.get("pageNum").toString());
+		int pageSize = Integer.parseInt(map.get("pageSize").toString());
+		int allNum = 0;//总数量
+		int pageNums = 0;//总页数
+
+		allNum = mapper.queryCourseListCount(map);
+		if(allNum%pageSize==0){
+			pageNums = allNum/pageSize;
+		}else{
+			pageNums = allNum/pageSize+1;
+		}
+
+		int start = (pageNum-1)*pageSize;//查询sql数据的起始位置
+
+		//查询数据
+		map.put("start", start);
+		List<CourseModel> result = mapper.queryCoursePageList(map);
+
+		//封装
+		PageInfo<CourseModel> pageinfo = new PageInfo<CourseModel>();
+		pageinfo.setAllNum(allNum);
+		pageinfo.setPageNum(pageNum);
+		pageinfo.setPageNums(pageNums);
+		pageinfo.setPageSize(pageSize);
+		pageinfo.setResults(result);
+
+		return pageinfo;
 	}
 
 }

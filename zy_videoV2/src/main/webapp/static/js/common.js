@@ -13,6 +13,10 @@ $(function(){
 	$('#reg_open').click(function(){
 		$('#regDiv').removeClass('hidden');
 	});
+    //显示开通VIP窗口
+    $('#vip_open').click(function(){
+        $('#vipDiv').removeClass('hidden');
+    });
 	//隐藏登录窗口
 	$('#login_close').click(function(){
 		$('#loginDiv').addClass('hidden');
@@ -21,6 +25,10 @@ $(function(){
 	$('#reg_close').click(function(){
 		$('#regDiv').addClass('hidden');
 	});
+    //隐藏注册窗口
+    $('#vip_close').click(function(){
+        $('#vipDiv').addClass('hidden');
+    });
 	
 	//登录请求的处理
 	$('#loginForm').validate({
@@ -96,7 +104,85 @@ $(function(){
 			password:'密码是必须填写的，3-30个字符',
 			pswAgain:'两次密码必须输入一致'
 		}
-	});	
-	
-	
+	});
+
+    //开通vip请求的处理
+    $('#vipForm').validate({
+        submitHandler:function(form){
+            //ajax提交注册信息，并且返回注册结果
+            console.log($('#vipForm').serialize());
+            //使用ajax的post方法提交注册信息
+            $.post('front/user/vip.do',$('#vipForm').serialize(),function(result){
+                console.log(result);
+                if(result.success){
+                    //注册成功,刷新页面
+                    location.reload();
+                }else{
+                    alert(result.message);
+                }
+            },'json');
+
+        },
+        rules:{//写校验规则的
+            email:{
+                required:true,
+                email:true,
+                minlength:3
+            },
+            password:{
+                required:true,
+                minlength:3
+            },
+            pswAgain:{
+                required:true,
+                equalTo:'#regPsw'
+            }
+        },
+        messages:{//写提示信息的
+            email:"注册账户必须是邮箱",
+            password:'密码是必须填写的，3-30个字符',
+            pswAgain:'两次密码必须输入一致'
+        }
+    });
+
+    //预约请求的处理
+    $('#iform').validate({
+        submitHandler:function(form){
+            //ajax提交注册信息，并且返回注册结果
+            console.log($('#iform').serialize());
+            //使用ajax的post方法提交注册信息
+            $.post('/front/caller.do',$('#iform').serialize(),function(result){
+                console.log(result);
+                if(result.success){
+                    //注册成功,刷新页面
+                    location.reload();
+                }else{
+                    alert(result.message);
+                }
+            },'json');
+
+        },
+        rules:{//写校验规则的
+            visitorName:{
+                required:true,
+                visitorName:true,
+                minlength:3
+            },
+            tel:{
+                required:true,
+                minlength:3
+            },
+            // pswAgain:{
+            //     required:true,
+            //     equalTo:'#regPsw'
+            // }
+        },
+        messages:{//写提示信息的
+            visitorName:"填写真实姓名",
+            tel:'手机号是必须填写的，11个字符',
+            //pswAgain:'两次密码必须输入一致'
+        }
+    });
+
+
 });

@@ -11,4 +11,8 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface UserRoleMapper {
     void addUserRoleModel(@Param("userId") int userId, int i);
+
+    void addUserRoleModelByUserId(@Param("userId") int userId,@Param("roleId") int roleId);
+
+    void updateUserRoleModelByUserId(@Param("userId") int userId,@Param("roleId") int roleId);
 }
